@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>¿El mejor cochinillo es el de Segovia?</title>
+<style>
+  html,body{
+    height:100%;
+    margin:0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+
+  body{
+    background-image: url("IMG_9796.JPEG");
+    background-repeat: repeat;
+    background-size: 250px auto;
+    background-attachment: fixed;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .card{
+    background: rgba(255,255,255,0.9);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    padding: 30px;
+    text-align:center;
+    width:90%;
+    max-width:700px;
+    position: relative;
+  }
+
+  h1{
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+
+  p{
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  .buttons{
+    margin-top:25px;
+    display:flex;
+    gap:18px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+
+  button{
+    padding:15px 30px;
+    border:none;
+    border-radius:12px;
+    font-size:1.1rem;
+    cursor:pointer;
+    transition: all .2s ease;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .yes{ background:#ff7b7b; color:white; }
+  .no{ background:#f2f2f2; }
+
+  .stage{ position:relative; width:100%; height:140px; }
+
+  .modal{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,0.5);
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; visibility:hidden; transition:.2s;
+  }
+
+  .modal.open{opacity:1; visibility:visible;}
+  .modal .box{
+    background:white; padding:25px; border-radius:14px;
+    text-align:center; max-width:400px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>¿El mejor cochinillo es el de Segovia?</h1>
+    <p>(Contesta sinceramente... si puedes 😏)</p>
+
+    <div class="stage" id="stage">
+      <div class="buttons">
+        <button class="yes" id="yesBtn">Sí</button>
+        <button class="no" id="noBtn">No</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="box">
+      <h2>😎</h2>
+      <p>Sabía que al final me darías la razón, un besote 😘</p>
+      <button onclick="closeModal()" style="margin-top:10px;padding:8px 14px;border-radius:10px;border:0;cursor:pointer;">Cerrar</button>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const no = document.getElementById('noBtn');
+  const yes = document.getElementById('yesBtn');
+  const stage = document.getElementById('stage');
+  const modal = document.getElementById('modal');
+  let attempts = 0;
+
+  function moveNoRandom() {
+    const area = stage.getBoundingClientRect();
+    const btnRect = no.getBoundingClientRect();
+    const padding = 10;
+    const maxX = area.width - btnRect.width - padding;
+    const maxY = area.height - btnRect.height - padding;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+    no.style.position = 'absolute';
+    no.style.left = x + 'px';
+    no.style.top = y + 'px';
+    attempts++;
+  }
+
+  function showModal(){ modal.classList.add('open'); }
+  window.closeModal = ()=> modal.classList.remove('open');
+
+  no.addEventListener('mouseenter', moveNoRandom);
+  no.addEventListener('pointerdown', e => {e.preventDefault(); moveNoRandom();});
+  no.addEventListener('touchstart', e => {e.preventDefault(); moveNoRandom();}, {passive:false});
+  yes.addEventListener('click', showModal);
+})();
+</script>
+</body>
+</html>
